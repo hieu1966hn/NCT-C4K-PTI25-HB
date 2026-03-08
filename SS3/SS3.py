@@ -26,3 +26,4 @@ movies = [movie1, movie2, movie3]
 # cập nhật thông tin phim: movies[1].update(new_data)
 # xóa một phần tử ở vị trí nào đó:  movies.pop(x) # vị trí thứ x
 # Tìm kiếm theo tên: ... về nhà làm nốt. 
+
