@@ -10,6 +10,6 @@ class MovieItem:
         
     def update(self, new_data:dict):
         for atttribute, value in new_data.items():
-            # CHỈ KHI NÀO THUỘC TÍNH CÓ GIÁ TRỊ MỚI THÌ MỚI UPDATE
-            if value: 
+            # Chỉ bỏ qua khi giá trị mới là None để vẫn update được 0, "", False.
+            if value is not None: 
                 setattr(self, atttribute, value)

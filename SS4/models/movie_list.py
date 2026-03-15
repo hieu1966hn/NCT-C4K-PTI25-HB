@@ -1,3 +1,6 @@
+import operator
+from datetime import datetime
+
 from SS4.models.movie_item import MovieItem
                 
 ### Khởi tạo Lớp quản lý phim 
@@ -13,8 +16,8 @@ class MovieList:
             # Tìm thấy
             if movie_item.title == movie_title:
                 return movie_item
-            # Không tìm thấy
-            return False
+        # Không tìm thấy
+        return False
                 
             
 
@@ -31,15 +34,16 @@ class MovieList:
         
         # Các câu lệnh để thêm movie mới: Thêm một đối tượng MovieItem mới vào danh sách
         # Tạo đối tượng 
-        movie_dict[id] = len(self.movie_item_list) # gán id cho movie mới (id = số lượng phần tử hiện có trong list)
+        movie_dict["id"] = len(self.movie_item_list) # gán id cho movie mới (id = số lượng phần tử hiện có trong list)
         new_item = MovieItem(movie_id=movie_dict["id"],  # khởi tạo một object MovieItem. Hiểu chuyển tửu dữ liệu thô (dictionary -> Object (đối tượng))
                              title=movie_dict["title"],
                              release_date=movie_dict["release_date"],
                              image=movie_dict["image"],
-                             rating=movie_dict["rating"],
-                             link=movie_dict["link"])
+                             rating=movie_dict.get("rating"),
+                             link=movie_dict.get("link"))
         # Thêm vào danh sách phần tử
         self.movie_item_list.append(new_item)
+        return new_item
         
     def edit_item(self, edit_title, new_dict):
         # Tìm movie theo tên edit_title
@@ -59,8 +63,9 @@ class MovieList:
     def search_by_title(self, search_title) -> list[MovieItem]:
         ## Phương thức tìm kiếm tất cả các đối tượng MovieItem có title là search_title
         matched_items = [] # danh sách kết quả tìm kiếm có title là search title
+        normalized_search = search_title.lower()
         for movie_item in self.movie_item_list: 
-            if search_title in movie_item.title.lower():
+            if normalized_search in movie_item.title.lower():
                 matched_items.append(movie_item)
         return matched_items
     
@@ -71,7 +76,7 @@ class MovieList:
                                       key=operator.attrgetter('rating'), 
                                       reverse=True # đảo ngược thứ tự từ Cao -> Thấp
                                       )
-        if top:  # top là index, không phải số lượng || top=0 -> phần tử đứng đầu
+        if top is not None:  # top là index, không phải số lượng || top=0 -> phần tử đứng đầu
             return self.movie_item_list[top]
         
     # Sắp xếp theo title
@@ -81,7 +86,7 @@ class MovieList:
                                       key=operator.attrgetter('title')
                                       # Không cần reverse = True -> mặc định là tăng dần A->Z
                                       )
-        if top:
+        if top is not None:
             return self.movie_item_list[top]
     
     # Sắp xếp theo release_date: Khó nhất vì dạng "Nov 2024" - "Jan 2010" => chuyển kiểu datetime
@@ -93,7 +98,7 @@ class MovieList:
                                       key=lambda x: format_date(x.release_date),
                                       reverse=True
                                       )
-        if top:
+        if top is not None:
             return self.movie_item_list[top]
 
 ## Thoát hẳn khỏi class và khai báo hàm format date
