@@ -43,12 +43,72 @@ class MovieList:
         
     def edit_item(self, edit_title, new_dict):
         # Tìm movie theo tên edit_title
-        # Thay thế thông tin của movie đã tìm được bằng thông tin mới new_dict
-        pass
+        matched = self.get_first_item_by_title(edit_title) 
+        # Sửa một đối tượng MovieItem có title là edit_title
+        if matched: 
+            matched.update(new_dict)
+        
     
     def delete_item(self, delete_title):
         #Xóa movie theo tên delete_title
-        pass
+        # Tìm được phim đó đã 
+        matched = self.get_first_item_by_title(delete_title) 
+        if matched: 
+            self.movie_item_list.remove(matched)
+    
+    def search_by_title(self, search_title) -> list[MovieItem]:
+        ## Phương thức tìm kiếm tất cả các đối tượng MovieItem có title là search_title
+        matched_items = [] # danh sách kết quả tìm kiếm có title là search title
+        for movie_item in self.movie_item_list: 
+            if search_title in movie_item.title.lower():
+                matched_items.append(movie_item)
+        return matched_items
+    
+    # sắp xếp theo rating
+    def sort_item_by_rating(self, top=None): # sắp xếp theo rating từ cao -> thấp
+        self.movie_item_list = sorted(self.movie_item_list, 
+                                      # hãy sx dựa trên thuộc tính "rating" của mỗi object
+                                      key=operator.attrgetter('rating'), 
+                                      reverse=True # đảo ngược thứ tự từ Cao -> Thấp
+                                      )
+        if top:  # top là index, không phải số lượng || top=0 -> phần tử đứng đầu
+            return self.movie_item_list[top]
+        
+    # Sắp xếp theo title
+    def sort_item_by_title(self, top=None): 
+        self.movie_item_list = sorted(self.movie_item_list,
+                                      # Sx theo thứ tự chữ cái A -> Z
+                                      key=operator.attrgetter('title')
+                                      # Không cần reverse = True -> mặc định là tăng dần A->Z
+                                      )
+        if top:
+            return self.movie_item_list[top]
+    
+    # Sắp xếp theo release_date: Khó nhất vì dạng "Nov 2024" - "Jan 2010" => chuyển kiểu datetime
+    def sort_item_by_date(self, top=None):
+        self.movie_item_list = sorted(self.movie_item_list,
+                                      # Viết tắt hàm
+                                      # def get_date(x):
+                                      #     return format_date(x.release_date)
+                                      key=lambda x: format_date(x.release_date),
+                                      reverse=True
+                                      )
+        if top:
+            return self.movie_item_list[top]
+
+## Thoát hẳn khỏi class và khai báo hàm format date
+def format_date(date_text):
+    return datetime.strptime(date_text, '%b %Y')
+    # strptime: Chuyển chuỗi => đối tượng ngày tháng
+    # %b: tên tháng viết tắt - Nov, Feb, Jan
+    # %Y: Năm 4 chữ số - 2024, 2025, 2026
+    # VÍ DỤ CHUYỂN ĐỔI: "Nov 2024" => 2024-11-01 00:00:00 (Python tự đặt ngày bằng 1)
+            
+        
+        
+    
+        
+        
     
     
         
