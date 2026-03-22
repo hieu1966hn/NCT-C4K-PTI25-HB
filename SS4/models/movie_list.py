@@ -2,12 +2,39 @@ import operator
 from datetime import datetime
 
 from SS4.models.movie_item import MovieItem
+from SS6.data import data_io
                 
-### Khởi tạo Lớp quản lý phim 
-class MovieList:
+### Khởi tạo Lớp quản lý phim
+class MovieDatabase:
     def __init__(self):
         # khởi tạo thuộc tính với kiểu dữ liệu: List
         self.movie_item_list = list()
+        # Đọc dữ liệu khi khởi tạo 
+        self.movie_dict_data = data_io.load_json_data()
+    
+    # bổ sung phương thức đọc/ghi file
+    def load_data(self):
+        """
+        Phương thức chuyển đổi dữ liệu đã READ vào danh sách đối tượng
+        """
+        for movie_dict in self.movie_dict_data: # movie_dict_data: dữ liệu từ file .json
+            movie = MovieItem(movie_id=movie_dict["movie_id"],
+                              title=movie_dict["title"],
+                              release_date=movie_dict["release_date"],
+                              image=movie_dict["image"],
+                              link=movie_dict["link"],
+                              )
+            self.movie_item_list.append(movie)
+    
+    def items_to_data(self):
+        """
+        Phương thức chuyển đổi danh sách đối tượng sang dữ liệu JSON => lưu vào file .json
+        """
+        json_data = list()
+        for movie in self.movie_item_list:
+            json_data.append(movie.__dict__)
+        return json_data
+            
     
     def get_first_item_by_title(self, movie_title):
         # Các câu lệnh để tìm và trả về phim theo tên
