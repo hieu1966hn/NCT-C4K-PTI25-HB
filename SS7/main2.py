@@ -5,8 +5,8 @@ from pathlib import Path
 from PyQt6 import uic
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
-from SS4.models.movie_item import MovieItem
-from SS4.models.movie_list import MovieDatabase
+from models import models # từ thư mục models lấy ra file models.py
+
 
 class MainWindow(QMainWindow):
     # Định nghĩa vị trí của các file ui
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         
         
         # Tạo Database
-        self.dtb = MovieDatabase()
+        self.dtb = models.MovieDatabase() # lấy ra class MovieDatabase từ trong file models.py
         self.dtb.load_data()
         
         # Hiển thị danh sách phim

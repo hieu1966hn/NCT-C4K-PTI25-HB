@@ -1,9 +1,25 @@
 import operator
 from datetime import datetime
 
-from SS4.models.movie_item import MovieItem
-from SS6.data import data_io
-                
+from data import data_io
+
+class MovieItem:
+    def __init__(self, movie_id, title, release_date, image, rating=None, link=None):
+        self.movie_id = movie_id
+        self.title = title
+        self.release_date = release_date
+        self.image = image
+        # Nếu không có rating thì mặc định bằng 0
+        self.rating = float(rating) if rating else 0
+        self.link = link
+        
+    def update(self, new_data:dict):
+        for atttribute, value in new_data.items():
+            # Chỉ bỏ qua khi giá trị mới là None để vẫn update được 0, "", False.
+            if value is not None: 
+                setattr(self, atttribute, value)
+
+
 ### Khởi tạo Lớp quản lý phim
 class MovieDatabase:
     def __init__(self):
@@ -18,7 +34,7 @@ class MovieDatabase:
         Phương thức chuyển đổi dữ liệu đã READ vào danh sách đối tượng
         """
         for movie_dict in self.movie_dict_data: # movie_dict_data: dữ liệu từ file .json
-            movie = MovieItem(movie_id=movie_dict["movie_id"],
+            movie = MovieItem(movie_id=movie_dict["id"],
                               title=movie_dict["title"],
                               release_date=movie_dict["release_date"],
                               image=movie_dict["image"],
@@ -144,11 +160,3 @@ def format_date(date_text):
     # %Y: Năm 4 chữ số - 2024, 2025, 2026
     # VÍ DỤ CHUYỂN ĐỔI: "Nov 2024" => 2024-11-01 00:00:00 (Python tự đặt ngày bằng 1)
             
-        
-        
-    
-        
-        
-    
-    
-        

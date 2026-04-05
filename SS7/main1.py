@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 
 class MainWindow(QMainWindow):
     # Định nghĩa vị trí của các file ui
-    UI_LOCATION  = os.path.join('SS7/ui/Anime_display.ui')
+    UI_LOCATION  = os.path.join('SS7/ui/main_window1.ui')
     STYLE_LOCATION = os.path.join("SS7/ui/style_main1.qss")
     
     def __init__(self, parent: QApplication):
