@@ -1,1 +1,15 @@
+.DS_Store
+
+.venv/
+.codex_venv/
+venv/
+
+.vscode/
+
+__pycache__/
+*.py[cod]
+
+.pytest_cache/
+.mypy_cache/
+
 SS5
