@@ -7,8 +7,8 @@ from PyQt6.QtWidgets import QApplication, QMainWindow
 
 class MainWindow(QMainWindow):
     # Định nghĩa vị trí của các file ui
-    UI_LOCATION  = os.path.join('SS7/ui/main_window1.ui')
-    STYLE_LOCATION = os.path.join("SS7/ui/style_main1.qss")
+    UI_LOCATION  = os.path.join('SS7_8/ui/main_window1.ui')
+    STYLE_LOCATION = os.path.join("SS7_8/ui/style_main1.qss")
     
     def __init__(self, parent: QApplication):
         super(MainWindow, self).__init__()
@@ -20,8 +20,8 @@ class MainWindow(QMainWindow):
             style_config = style_file.read()
         self.setStyleSheet(style_config)  # truyền các thuộc tính đã sửa để cập nhật vào app
         
-        # Luôn hiển thị trang home
-        self.ui.stackedWidget.setCurrentIndex(0)
+        # Luôn hiển thị trang CRUD
+        self.ui.stackedWidget.setCurrentIndex(2)
         # Hiển thị cửa sổ ra màn hình.
         self.show()
 
